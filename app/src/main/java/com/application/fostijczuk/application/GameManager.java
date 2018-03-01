@@ -2,6 +2,7 @@ package com.application.fostijczuk.application;
 
 
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,12 +15,16 @@ public class GameManager extends GestureDetector.SimpleOnGestureListener {
     private List<Drawable> drawebles;
     private View view;
     private  Playre player;
+    private Maze maze;
 
+    private Rect rect = new Rect();
+    private int size ;
     public GameManager(){
         player = new Playre();
         drawebles = new ArrayList<>();
+        maze = new Maze(35);
         drawebles.add(player);
-        drawebles.add(new Maze());
+        drawebles.add(maze);
     }
 
     @Override
@@ -34,14 +39,17 @@ public class GameManager extends GestureDetector.SimpleOnGestureListener {
 
     public void draw(Canvas canvas){
         for (Drawable drawableItems:drawebles  ) {
-            drawableItems.draw(canvas);
+            drawableItems.draw(canvas,rect);
         }
     }
 
     public void setView(View view) {
         this.view = view;
     }
-
+    public void  setScreenSize(int width,int height){
+            size = Math.min(width,height);
+            rect.set((width-size)/2,(height-size)/2,(width+size)/2,(height+size)/2);
+    }
 
 
 }
