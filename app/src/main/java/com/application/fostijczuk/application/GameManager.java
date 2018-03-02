@@ -12,7 +12,7 @@ import java.util.List;
 
 public class GameManager extends GestureDetector.SimpleOnGestureListener {
 
-    private List<Drawable> drawebles;
+    private List<Drawable> drawebles= new ArrayList<>();
     private View view;
     private  Playre player;
     private Maze maze;
@@ -20,9 +20,8 @@ public class GameManager extends GestureDetector.SimpleOnGestureListener {
     private Rect rect = new Rect();
     private int size ;
     public GameManager(){
-        player = new Playre();
-        drawebles = new ArrayList<>();
-        maze = new Maze(35);
+        maze = new Maze(30);
+        player= new Playre(maze.getStart(),30);
         drawebles.add(player);
         drawebles.add(maze);
     }
@@ -32,7 +31,17 @@ public class GameManager extends GestureDetector.SimpleOnGestureListener {
         int diffX=0,diffY=0;
         diffX= Math.round( e2.getX()-e1.getX());
         diffY=Math.round( e2.getY()-e1.getY());
+        if(Math.abs(diffX)>Math.abs(diffY)){
+            diffX = diffX>0 ? 1:-1;
+            diffY=0;
+        }else {
+            diffY = diffY>0 ? 1:-1;
+            diffX=0;
+        }
+
+
         player.Move(diffX,diffY);
+
         view.invalidate();
         return super.onFling(e1, e2, velocityX, velocityY);
     }

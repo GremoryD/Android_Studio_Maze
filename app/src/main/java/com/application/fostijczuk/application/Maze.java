@@ -43,7 +43,7 @@ public class Maze implements Drawable {
 
             if(current.x > 2){
                 if(!isUsedCell(current.x-2,current.y)){
-                        unusedNeigbords.add(new Point(current.x-2,current.y));
+                    unusedNeigbords.add(new Point(current.x-2,current.y));
                 }
             }
 
@@ -81,6 +81,10 @@ public class Maze implements Drawable {
         }
     }
 
+    public boolean canPlayerGoTo(int x,int y){
+        return !array[y][x];
+    }
+
     private  boolean isUsedCell(int x,int y ){
         if(x<0 || y<0 || x>=size-1 || y>=size-1){
             return true;
@@ -100,5 +104,14 @@ public class Maze implements Drawable {
                  }
             }
         }
+    }
+
+    public Point getStart() {
+        return start;
+    }
+
+
+    public Point getEnd() {
+        return end;
     }
 }
