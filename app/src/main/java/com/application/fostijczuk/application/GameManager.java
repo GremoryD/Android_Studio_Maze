@@ -15,15 +15,24 @@ public class GameManager extends GestureDetector.SimpleOnGestureListener {
     private List<Drawable> drawebles= new ArrayList<>();
     private View view;
     private  Playre player;
+    private Exit exit;
     private Maze maze;
+    private int size ;
 
     private Rect rect = new Rect();
-    private int size ;
+
     public GameManager(){
-        maze = new Maze(30);
-        player= new Playre(maze.getStart(),30);
-        drawebles.add(player);
+        this.Create(15);
+    }
+
+    private void Create(int maze_size){
+        drawebles.clear();
+        maze = new Maze(maze_size);
+        player= new Playre(maze.getStart(),maze_size);
         drawebles.add(maze);
+        exit=new Exit(maze.getEnd(),maze_size);
+        drawebles.add(exit);
+        drawebles.add(player);
     }
 
     @Override
@@ -38,9 +47,29 @@ public class GameManager extends GestureDetector.SimpleOnGestureListener {
             diffY = diffY>0 ? 1:-1;
             diffX=0;
         }
+        int stepX=player.getX(),stepY=player.getY();
+        while(maze.canPlayerGoTo(stepX+diffX,stepY+diffY)){
+                stepX+=diffX;
+                stepY+=diffY;
+             if(diffX!=0){
+                    if(maze.canPlayerGoTo(stepX,stepY+1) || maze.canPlayerGoTo(stepX,stepY-1)){
+                        break;
+                    }
+                }
+            if(diffY!=0){
+                if(maze.canPlayerGoTo(stepX+1,stepY) || maze.canPlayerGoTo(stepX-1,stepY)){
+                    break;
+                }
+            }
+
+            player.goTo(stepX,stepY);
 
 
-        player.Move(diffX,diffY);
+        }
+
+        if(exit.getPoint().equals(player.getPoint())){
+            this.Create(maze.GetSize()+1);
+        }
 
         view.invalidate();
         return super.onFling(e1, e2, velocityX, velocityY);

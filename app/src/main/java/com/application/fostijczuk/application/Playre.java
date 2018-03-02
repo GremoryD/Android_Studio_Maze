@@ -7,15 +7,20 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 
-public class Playre implements Drawable {
+public class Playre extends Dot {
 
     public Point point;
     public int size;
-    private Paint paint;
+
+    private static Paint getPaint(){
+
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.RED);
+        return  paint;
+    }
 
     public  Playre(Point start , int size){
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(Color.RED);
+        super(start,getPaint(),size);
         point = start;
         this.size = size;
     }
@@ -30,15 +35,11 @@ public class Playre implements Drawable {
 
 
 
-    public  void Move(int x,int y){
-        point.x += x;
-        point.y += x;
+    public  void goTo(int x,int y){
+        point.x = x;
+        point.y = y;
 
     }
 
-    @Override
-    public void draw(Canvas canvas, Rect rect) {
-        float sizeP =  (float)(rect.right-rect.left)/this.size;
-        canvas.drawRect( rect.left+point.x*sizeP , rect.top+point.y*sizeP ,rect.left+ +point.x*sizeP+sizeP, rect.top+ point.y*sizeP+sizeP ,paint);
-    }
+
 }

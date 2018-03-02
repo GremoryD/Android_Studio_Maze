@@ -28,6 +28,10 @@ public class Maze implements Drawable {
         ganerateMaze();
     }
 
+    public int GetSize(){
+        return size;
+    }
+
     private void ganerateMaze(){
         for(int i=0;i<size;i++){
             for(int j=0;j<size;j++){
@@ -82,7 +86,11 @@ public class Maze implements Drawable {
     }
 
     public boolean canPlayerGoTo(int x,int y){
-        return !array[y][x];
+        return array[y][x];
+    }
+
+    public  boolean isCrossroads(int x,int y){
+        return isUsedCell(x,y);
     }
 
     private  boolean isUsedCell(int x,int y ){
